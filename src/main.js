@@ -29,7 +29,7 @@ async function onRandomRecipe() {
     // console.log(ingredientss);
 
     // html styling
-    document.body.style.backgroundColor = "lightgrey";
+    document.body.style.backgroundColor = "grey";
     container.style.width = "350px";
     container.style.padding = "10px";
     container.style.minHeight = "500px";
