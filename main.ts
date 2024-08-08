@@ -1,0 +1,84 @@
+// Define types for API
+interface Meal {
+  strMeal: string;
+  strCategory: string;
+  strArea: string;
+  strInstructions: string;
+  strMealThumb: string;
+  [key: string]: any; // Allow other properties
+}
+
+interface ApiResponse {
+  meals: Meal[];
+}
+
+//define  Button onclick
+const getRecipeBtn = document.getElementById(
+  "getRecipeBtn"
+) as HTMLButtonElement;
+getRecipeBtn.onclick = onRandomRecipe;
+
+// Declaration of HTML elements
+const container = document.querySelector(".recipe-container") as HTMLDivElement;
+const ingredientText = document.querySelector(
+  ".ingredienttext"
+) as HTMLDivElement;
+// Country element  declaration
+const country = document.querySelector(".country") as HTMLSpanElement;
+
+// API URL
+const url = "https://www.themealdb.com/api/json/v1/1/random.php";
+
+// Function for onclick button to get recipe
+async function onRandomRecipe(): Promise<void> {
+  try {
+    const response = await fetch(url);
+    const data: ApiResponse = await response.json();
+
+    // Loop function for ingredients
+    const meal = data.meals[0];
+    const ingredients: string[] = [];
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = meal[`strIngredient${i}`];
+      if (ingredient) {
+        ingredients.push(ingredient);
+      } else {
+        break;
+      }
+    }
+
+    // HTML styling
+    document.body.style.backgroundColor = "grey";
+    if (container) {
+      container.style.width = "350px";
+      container.style.padding = "10px";
+      container.style.minHeight = "500px";
+    }
+
+    // Display random recipe
+    if (container) {
+      container.innerHTML = ` 
+        <h2 style="border: 2px blue solid">${meal.strMeal}</h2>
+        <h3>CATEGORY: ${meal.strCategory}</h3>
+        <h3>ORIGIN COUNTRY: ${meal.strArea}</h3>
+        <h3 style="color: red">INSTRUCTION:</h3>
+        <p>${meal.strInstructions}</p>
+        <img style="width: 200px" src="${meal.strMealThumb}">
+      `;
+    }
+
+    if (ingredientText) {
+      ingredientText.innerHTML = `INGREDIENTS:<ol>${ingredients
+        .map((ingredient) => `<li>${ingredient}</li>`)
+        .join("")}</ol>`;
+    }
+
+    if (country) {
+      country.textContent = `country: ${meal.strArea}`;
+    }
+
+    console.log(ingredients);
+  } catch (error) {
+    // console.error("Failed to fetch recipe:", error);
+  }
+}
