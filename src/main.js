@@ -35,10 +35,10 @@ var __awaiter =
 //define  Button onclick
 const getRecipeBtn = document.getElementById("getRecipeBtn");
 getRecipeBtn.onclick = onRandomRecipe;
-// Declaration with type assertions
+// Declaration of HTML elements
 const container = document.querySelector(".recipe-container");
 const ingredientText = document.querySelector(".ingredienttext");
-// Assuming 'country' is declared somewhere
+// Country declaration
 const country = document.querySelector(".country");
 // API URL
 const url = "https://www.themealdb.com/api/json/v1/1/random.php";
